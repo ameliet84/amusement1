@@ -4,7 +4,12 @@ int ft_atoi(char *str)
 {
 int a=0, j, puissance=1, debut=0;
 
-if ((int)str[0]==45)
+while (str[debut]==' '||str[debut]=='	'||(int)str[debut]==13)
+{
+debut++;
+}
+
+if (str[debut]=='-')
 {
 debut ++;
 }
@@ -19,7 +24,7 @@ for (j=i-1; j>=debut; j--)
 a+=((int)str[j]-48)*puissance;
 puissance*=10;
 }
-if ((int)str[0]==45)
+if (str[debut -1]=='-')
 {
 a*=-1;
 }
