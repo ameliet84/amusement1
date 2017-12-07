@@ -8,9 +8,11 @@ int ft_putchar(char c)
 
 void ft_putnbr(int nb)
 {
+int a=1;
 if (nb<0)
 {	ft_putchar('-');
-	nb=-nb;
+	a=nb;
+	nb=-nb-1;
 }
 int i=1, temp=nb, c;
 while (temp/10!=0)
@@ -18,14 +20,25 @@ while (temp/10!=0)
 	temp/=10;
 	}
 temp = nb;
+
 while (i>=1)
-	{temp=temp/i;
+	{
+	if (a<0 && i == 1)
+	{
+	c = temp + 49;
+	ft_putchar(c);
+	i/=10;
+	}
+	else
+        {
+	temp=temp/i;
 	c= temp + 48;
 	temp=nb%i;
 	ft_putchar(c);
 	i/=10;
 	}
 	
+	}
 }
 
 int main(void)
