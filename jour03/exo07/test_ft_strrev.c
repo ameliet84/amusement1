@@ -4,8 +4,8 @@
 int main(void)
 {
 char str[]="salut";
-
-*ft_strrev(&str[0]);
 printf("%s \n", str);
+
+printf("%s \n",ft_strrev(str));
 return 0;
 }

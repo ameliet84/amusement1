@@ -10,7 +10,7 @@ while(str[count])
 count++;
 }
 int i, moitie;
-if (i%2==1)
+if (count%2==1)
 {	
 	moitie = (count-1)/2;
 }
@@ -19,7 +19,7 @@ else
 	moitie = count/2;
 }
 
-for (i=0; i++; i<=moitie)
+for (i=0; i<moitie; i++)
 {
 char temp = str[i];
 str[i]=str[count - i-1];
