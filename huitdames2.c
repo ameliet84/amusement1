@@ -162,7 +162,7 @@ int main(void)
 int tab[8][8];
 
 initialiser_tableau(tab);
-placer_dames(0, 0,7, tab);
+placer_dames(0, 0,0, tab);
 
 return 0;
 }
