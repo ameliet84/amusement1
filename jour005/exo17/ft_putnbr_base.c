@@ -29,7 +29,7 @@ while (base[n])
 
 if(q==0)
 {
-	if (base[i]=='+'||base[i]=='-'||n==0||n==1)
+	if (base[i]=='+'||base[i]=='-'||base[i]==' '||n==0||n==1)
 	{
 	ft_putchar('\0');
 	q=1;
@@ -39,7 +39,7 @@ if(q==0)
 	{
 		while (j<=n-1)
 		{
-			if (base[i]==base[j]||base[j]=='+' ||base[j]=='-')
+			if (base[i]==base[j]||base[j]=='+' ||base[j]=='-'||base[j]==' ')
 			{	ft_putchar('\0');
 				q=1;
 			}
