@@ -105,7 +105,7 @@ void	sastantua(int size)
 
 int main(void)
 {
-sastantua(7);
+sastantua(5);
 
 return 0;
 }
