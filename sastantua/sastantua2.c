@@ -3,9 +3,7 @@
 
 int	nb_lines(int size)
 {
-int	n;
-	n=(size+2)*(size+3)/2-3;
-return n;
+	return n=(size+2)*(size+3)/2-3;
 }
 
 
@@ -77,20 +75,15 @@ void	sastantua(int size)
 {
 	int	line, size_door, i;
 		line=1;
-		i=5;
-	if (size==1||size==2)
+		i=1;
 		size_door=1;
-	if (size==3||size==4)
-		size_door=3;
-	if (size>=5)
-	{
-		size_door=5;
-		while (i<size)
+
+	while (2*i<size)
 		{
 			size_door+=2;
 			i++;
 		}
-	}
+	
 	
 	while(line<=nb_lines(size))
 	{
@@ -101,7 +94,7 @@ void	sastantua(int size)
 
 int	main(void)
 {
-sastantua(5);
+sastantua(2);
 
 return 0;
 }
