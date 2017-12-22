@@ -68,24 +68,22 @@ if (line<=nb_lines(size)-size_door)
 	}
 else
 	{
-		while (i<=(nb_stars(line, 1,1, 1)-size_door)/2)
+		while(i<=nb_stars(line, 1, 1, 1))
+		{
+			if(i>(nb_stars(line,1,1,1)-size_door)/2 && i<=(nb_stars(line,1,1,1)+size_door)/2)
 			{
-			ft_putchar('*');
-			++i;
-			}
-		while(i>(nb_stars(line,1,1,1)-size_door)/2 && i<=(nb_stars(line,1,1,1)+size_door)/2)
-		{
-			if (line==nb_lines(size)-(size_door-1)/2 && i==(nb_stars(line, 1, 1, 1)+size_door)/2-1 && size_door>=5)
-			ft_putchar('$');
-			else
-			ft_putchar('|');
+				if (line==nb_lines(size)-(size_door-1)/2 && i==(nb_stars(line, 1, 1, 1)+size_door)/2-1 && size_door>=5)
+				ft_putchar('$');
+				else
+				ft_putchar('|');
 		
-			++i;
-		}
-		while(i<=nb_stars(line,1,1,1))
-		{
-			ft_putchar('*');
-			i++;
+				++i;
+			}
+			else
+			{
+				ft_putchar('*');
+				i++;
+			}
 		}
 	}
 ft_putchar('\\');
