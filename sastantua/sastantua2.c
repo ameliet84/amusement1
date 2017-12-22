@@ -47,7 +47,7 @@ int	i;
 }
 
 
-void print_line(int line, int size, int size_door)
+void	print_line(int line, int size, int size_door)
 {
 int	i;
 	i=1;	
@@ -96,12 +96,10 @@ void	sastantua(int size)
 	{
 		print_line(line, size, size_door);
 		line++;
-	}
-	
-	
+	}	
 }
 
-int main(void)
+int	main(void)
 {
 sastantua(5);
 
