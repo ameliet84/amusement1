@@ -63,13 +63,12 @@ int	i;
 				else
 				write(1, "|",1);
 		
-				++i;
 			}
 			else
 			{
 				write(1, "*", 1);
-				i++;
 			}
+			++i;
 		}
 write(1, "\\", 1);
 write(1, "\n", 1);
