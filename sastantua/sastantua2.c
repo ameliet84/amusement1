@@ -52,48 +52,42 @@ int	i;
 }
 
 
-void print_normal_line(int line, int size)
+void print_line(int line, int size, int size_door)
 {
 int	i;
-	
+	i=1;	
 	print_spaces(size, line, 1, 0);
 	ft_putchar('/');	
-	i=1;
-	while (i<=nb_stars(line, 1, 1, 1))
+if (line<=nb_lines(size)-size_door)
 	{
-		ft_putchar('*');
-		++i;
+		while (i<=nb_stars(line, 1, 1, 1))
+		{
+			ft_putchar('*');
+			++i;
+		}
 	}
-	ft_putchar('\\');
-	ft_putchar('\n');
-}
-
-void print_door_line(int line, int size, int size_door)
-{
-int	i;
-	i=1;
-print_spaces(size, line, 1, 0);
-ft_putchar('/');
-
-	while (i<=(nb_stars(line, 1,1, 1)-size_door)/2)
+else
+	{
+		while (i<=(nb_stars(line, 1,1, 1)-size_door)/2)
+			{
+			ft_putchar('*');
+			++i;
+			}
+		while(i>(nb_stars(line,1,1,1)-size_door)/2 && i<=(nb_stars(line,1,1,1)+size_door)/2)
 		{
-		ft_putchar('*');
-		++i;
+			if (line==nb_lines(size)-(size_door-1)/2 && i==(nb_stars(line, 1, 1, 1)+size_door)/2-1 && size_door>=5)
+			ft_putchar('$');
+			else
+			ft_putchar('|');
+		
+			++i;
 		}
-	while(i>(nb_stars(line,1,1,1)-size_door)/2 && i<=(nb_stars(line,1,1,1)+size_door)/2)
+		while(i<=nb_stars(line,1,1,1))
 		{
-		if (line==nb_lines(size)-(size_door-1)/2 && i==(nb_stars(line, 1, 1, 1)+size_door)/2-1 && size_door>=5)
-		ft_putchar('$');
-		else
-		ft_putchar('|');
-
-		++i;
+			ft_putchar('*');
+			i++;
 		}
-	while(i<=nb_stars(line,1,1,1))
-		{
-		ft_putchar('*');
-		i++;
-		}
+	}
 ft_putchar('\\');
 ft_putchar('\n');
 }
@@ -117,21 +111,18 @@ void	sastantua(int size)
 		}
 	}
 	
-	while(line<=nb_lines(size)-size_door)
-	{
-		print_normal_line(line, size);
-		line++;
-	}
 	while(line<=nb_lines(size))
 	{
-		print_door_line(line, size, size_door);
-		++line;
+		print_line(line, size, size_door);
+		line++;
 	}
+	
+	
 }
 
 int main(void)
 {
-sastantua(3);
+sastantua(7);
 
 return 0;
 }
