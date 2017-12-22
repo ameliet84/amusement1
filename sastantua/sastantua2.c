@@ -1,11 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
 int	nb_lines(int size)
 {
 int	n;
@@ -45,7 +40,7 @@ int	i;
 	{
 		while (i<=spaces)
 		{
-			ft_putchar(' ');
+			write(1," ",1);
 			i++;
 		}
 	}
@@ -57,27 +52,27 @@ void print_line(int line, int size, int size_door)
 int	i;
 	i=1;	
 	print_spaces(size, line, 1, 0);
-	ft_putchar('/');	
+	write(1, "/",1);	
 
 		while(i<=nb_stars(line, 1, 1, 1))
 		{
 			if(line>nb_lines(size)-size_door && i>(nb_stars(line,1,1,1)-size_door)/2 && i<=(nb_stars(line,1,1,1)+size_door)/2)
 			{
 				if (line==nb_lines(size)-(size_door-1)/2 && i==(nb_stars(line, 1, 1, 1)+size_door)/2-1 && size_door>=5)
-				ft_putchar('$');
+				write(1,"$", 1);
 				else
-				ft_putchar('|');
+				write(1, "|",1);
 		
 				++i;
 			}
 			else
 			{
-				ft_putchar('*');
+				write(1, "*", 1);
 				i++;
 			}
 		}
-ft_putchar('\\');
-ft_putchar('\n');
+write(1, "\\", 1);
+write(1, "\n", 1);
 }
 
 void	sastantua(int size)
