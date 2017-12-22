@@ -8,32 +8,36 @@ int	nb_lines(int size)
 
 
 
-int	nb_stars(int line, int floor, int stars, int i)
+int	nb_stars(int line, int floor, int stars, int i, int k)
 {
 if (i<line && i<nb_lines(floor))
-	return nb_stars(line, floor,  stars +2, i+1);
+	return nb_stars(line, floor,  stars +2, i+1, k);
 
-if (i==nb_lines(floor) && i<line)
-	return nb_stars(line,floor+1, stars +6, i+1);
-
+if (i==nb_lines(floor) && i<line && floor%2==0)
+	return nb_stars(line,floor+1, stars+k, i+1, k+2);
+if (i==nb_lines(floor) && i<line && floor%2==1)
+	return nb_stars(line, floor+1, stars +k, i+1, k);
 return stars;
 }
 
 
 
-void	print_spaces(int size, int line, int floor, int spaces)
+void	print_spaces(int size, int line, int floor, int spaces, int k)
 {
 int	i;
 	i=1;
 
-	if (line<nb_lines(size) && line>nb_lines(floor))
-		print_spaces(size, line,floor+1, spaces);
+	if (line<nb_lines(size) && line>nb_lines(floor)&& floor%2==0)
+		print_spaces(size, line,floor+1, spaces, k+1);
+	if (line<nb_lines(size) && line>nb_lines(floor) && floor%2==1)
+		print_spaces(size, line, floor+1, spaces, k);
 	else if (line<nb_lines(size) && line<nb_lines(floor))
-		print_spaces(size, line+1, floor, spaces+1);
+		print_spaces(size, line+1, floor, spaces+1,k);
 
-	else if (line<nb_lines(size) && line==nb_lines(floor))
-		print_spaces(size, line+1, floor+1, spaces+3);
-
+	else if (line<nb_lines(size) && line==nb_lines(floor) &&floor%2==0)
+		print_spaces(size, line+1, floor+1, spaces+k, k+1);
+	else if (line<nb_lines(size) && line==nb_lines(floor) && floor%2==1)
+		print_spaces(size, line+1, floor+1, spaces +k, k);
 	else
 	{
 		while (i<=spaces)
@@ -49,14 +53,14 @@ void	print_line(int line, int size, int size_door)
 {
 int	i;
 	i=1;	
-	print_spaces(size, line, 1, 0);
+	print_spaces(size, line, 1, 0,3);
 	write(1, "/",1);	
 
-		while(i<=nb_stars(line, 1, 1, 1))
+		while(i<=nb_stars(line, 1, 1, 1,6))
 		{
-			if(line>nb_lines(size)-size_door && i>(nb_stars(line,1,1,1)-size_door)/2 && i<=(nb_stars(line,1,1,1)+size_door)/2)
+			if(line>nb_lines(size)-size_door && i>(nb_stars(line,1,1,1,6)-size_door)/2 && i<=(nb_stars(line,1,1,1,6)+size_door)/2)
 			{
-				if (line==nb_lines(size)-(size_door-1)/2 && i==(nb_stars(line, 1, 1, 1)+size_door)/2-1 && size_door>=5)
+				if (line==nb_lines(size)-(size_door-1)/2 && i==(nb_stars(line, 1, 1, 1,6)+size_door)/2-1 && size_door>=5)
 				write(1,"$", 1);
 				else
 				write(1, "|",1);
@@ -93,7 +97,7 @@ void	sastantua(int size)
 
 int	main(void)
 {
-sastantua(2);
+sastantua(6);
 
 return 0;
 }
