@@ -65,30 +65,3 @@ words[nb_words][1]='\0';
 
 return words;
 }
-
-
-int main(int argc, char **argv)
-{
-char **tab;
-
-if (argc==2)
-{
-tab=ft_split_whitespaces(argv[1]) ;
-
-int i=0, j=0;
-
-while (tab[i][j])
-{
-	while(tab[i][j])
-	{
-	printf("%c", tab[i][j++]);
-	}
-	printf("\n");
-	j=0;
-	i++;
-}
-}
-
-return 0;
-}	
-	
