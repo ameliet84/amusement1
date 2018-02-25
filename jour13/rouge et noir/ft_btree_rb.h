@@ -27,5 +27,7 @@ void rot_left(t_rb_node *root);
 void rot_right(t_rb_node *root);
 void rotate(t_rb_node *root);
 t_rb_node *racine(t_rb_node *root);
+void print_tree(t_rb_node *root);
+int max(char *a, char *b);
 
 #endif

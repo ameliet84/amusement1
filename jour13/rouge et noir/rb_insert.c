@@ -10,11 +10,14 @@ void repare(t_rb_node *root)
 	else if(uncle(root)->color==RB_RED && uncle(root)->data!=NULL)
 	{
 		t_uncle(root);
-		repare(racine(root));
+		repare((root->parent)->parent);
 	}
 	else
 	{
+//		printf("\n\n rotation\n");
+//		print_tree(racine(root));
 		rotate(root);
+//		print_tree(racine(root));
 		repare(racine(root));
 	}
 }
@@ -23,7 +26,7 @@ void rb_insert(struct s_rb_node **root, void *data, int (*cmpf)(char *, char *))
 {
 	t_rb_node *new;
 	if(!root)
-		new=btree_create_node(data, *root);
+		new=btree_create_node(data, NULL);
 	if(cmpf((*root)->data, data)>0)
 	{
 		if((*root)->left!=NULL)
@@ -89,7 +92,7 @@ int main(int argc, char **argv)
 		while(++i<argc)
 		{
 			root=new;
-			rb_insert(&root, argv[i], &ft_strcmp);
+			rb_insert(&root, argv[i], &max);
 		}
 		print_tree(racine(new));
 	}

@@ -1,5 +1,12 @@
 #include "ft_btree_rb.h"
 
+int max(char *a, char *b)
+{
+	if(atoi(a)<atoi(b))
+		return -1;
+	return 1;
+}
+
 t_rb_node *btree_create_node(void *item, t_rb_node *parent)
 {
 	t_rb_node *new;
@@ -92,17 +99,24 @@ void rotate(t_rb_node *root)
 			root=root->left;
 		}
 	if((gp->right)!=NULL)
-		if((gp->left)->right!=NULL && root==(gp->right)->left)
+		if((gp->right)->left!=NULL && root==(gp->right)->left)
 		{
 			rot_right(root);
 			root=root->right;
 		}
 	p=root->parent;
 	gp=p->parent;
-	if(root==p->left)
-		rot_right(p);
-	else
+	if(p->left==NULL) 
+	{
 		rot_left(p);
+	}
+	else
+	{
+		if( root==p->left)
+			rot_right(p);
+		else
+			rot_left(p);
+	}
 	p->color=RB_BLACK;
 	gp->color=RB_RED;
 }
