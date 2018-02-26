@@ -14,10 +14,7 @@ void repare(t_rb_node *root)
 	}
 	else
 	{
-//		printf("\n\n rotation\n");
-//		print_tree(racine(root));
 		rotate(root);
-//		print_tree(racine(root));
 		repare(racine(root));
 	}
 }
@@ -89,12 +86,20 @@ int main(int argc, char **argv)
 		i=1;
 		new=btree_create_node(argv[1], NULL);
 		new->color=RB_BLACK;
-		while(++i<argc)
+		while(++i<argc-1)
 		{
-			root=new;
-			rb_insert(&root, argv[i], &max);
+			root=racine(new);
+			rb_insert(&root, argv[i], &ft_strcmp);
 		}
-		print_tree(racine(new));
+	root=racine(new);
+//	print_tree(root);
+	root=racine(new);
+	node(new, root, &ft_strcmp, argv[argc-1]);
+	printf("test\n");
+	printf("test et node = %s\n", (char *)new->data);
+	suppr(new, racine(new));
+	printf("\n\n\net maintenant : \n\n");
+	print_tree(root);
 	}
 	return 0;
 }

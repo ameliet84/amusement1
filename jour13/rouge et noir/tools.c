@@ -82,7 +82,7 @@ void rot_right(t_rb_node *root)
 		(root->right)->parent=root;
 	(root->right)->left=temp1;
 	if(((root->right)->left)!=NULL)
-		((root->right)->left)->parent=root->left;	
+		((root->right)->left)->parent=root->right;	
 }
 
 void rotate(t_rb_node *root)
@@ -101,6 +101,7 @@ void rotate(t_rb_node *root)
 	if((gp->right)!=NULL)
 		if((gp->right)->left!=NULL && root==(gp->right)->left)
 		{
+			printf("cas !!! et gp=%s%d et p=%s%d\n", (char *)gp->data, (int)gp->color, (char *)p->data, (int)p->color );
 			rot_right(root);
 			root=root->right;
 		}
