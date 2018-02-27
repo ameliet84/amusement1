@@ -29,7 +29,8 @@ void rotate(t_rb_node *root);
 t_rb_node *racine(t_rb_node *root);
 void print_tree(t_rb_node *root);
 int max(char *a, char *b);
-void node(t_rb_node *new, t_rb_node *root, int (*cmpf)(char *, char *), char *data);
-void suppr(t_rb_node *node, t_rb_node *root);
+void node(t_rb_node *root, int (*cmpf)(char *, char *), char *data);
+void suppr(t_rb_node *root, int (*cmpf)(char *, char *), char *data);
+void print_node(t_rb_node *root);
 
 #endif

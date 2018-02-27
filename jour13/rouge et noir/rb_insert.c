@@ -53,10 +53,8 @@ void rb_insert(struct s_rb_node **root, void *data, int (*cmpf)(char *, char *))
 	repare(new);		
 }
 
-void print_tree(t_rb_node *root)
+void print_node(t_rb_node *root)
 {
-	if(!root)
-		return;
 	printf("item = %s\n", (char *)root->data);
 	if(root->parent!=NULL)
 		printf("parent = %s\n", (char *)(root->parent)->data);
@@ -71,6 +69,14 @@ void print_tree(t_rb_node *root)
 	else
 		printf("right =NULL\n");
 	printf("color = %d\n\n\n", (int)root->color);
+
+}
+
+void print_tree(t_rb_node *root)
+{
+	if(!root)
+		return;
+	print_node(root);
 	print_tree(root->left);
 	print_tree(root->right);
 }
@@ -92,12 +98,10 @@ int main(int argc, char **argv)
 			rb_insert(&root, argv[i], &ft_strcmp);
 		}
 	root=racine(new);
-//	print_tree(root);
+	print_tree(root);
 	root=racine(new);
-	node(new, root, &ft_strcmp, argv[argc-1]);
-	printf("test\n");
-	printf("test et node = %s\n", (char *)new->data);
-	suppr(new, racine(new));
+	new=btree_create_node(NULL, NULL);
+	node(root,&ft_strcmp, argv[argc-1]);
 	printf("\n\n\net maintenant : \n\n");
 	print_tree(root);
 	}
