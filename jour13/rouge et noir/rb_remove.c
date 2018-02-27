@@ -54,9 +54,19 @@ void suppr(t_rb_node *root, int (*cmpf)(char *, char *), char *data)
 	}
 }
 
-
-/*void rb_remove(struct s_rb_node **root, void *data, int (*cmpf)(void *, void *), void (*freef)(void *))
+void suppr_repare(t_rb_node *root)
 {
-
+	if(root==NULL)
+		return;
+	if(root->color==RB_RED)
+		repare(root);
+	suppr_repare(root->left);
+	suppr_repare(root->right);
 }
-*/
+
+
+void rb_remove(struct s_rb_node *root, void *data, int (*cmpf)(char *, char *))
+{
+	node(root, cmpf, data);
+	suppr_repare(racine(root));
+}

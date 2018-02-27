@@ -100,8 +100,7 @@ int main(int argc, char **argv)
 	root=racine(new);
 	print_tree(root);
 	root=racine(new);
-	new=btree_create_node(NULL, NULL);
-	node(root,&ft_strcmp, argv[argc-1]);
+	rb_remove(root, argv[argc-1], &ft_strcmp);
 	printf("\n\n\net maintenant : \n\n");
 	print_tree(root);
 	}

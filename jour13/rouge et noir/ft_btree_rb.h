@@ -32,5 +32,7 @@ int max(char *a, char *b);
 void node(t_rb_node *root, int (*cmpf)(char *, char *), char *data);
 void suppr(t_rb_node *root, int (*cmpf)(char *, char *), char *data);
 void print_node(t_rb_node *root);
+void repare(t_rb_node *root);
+void rb_remove(struct s_rb_node *root, void *data, int (*cmpf)(char *, char *));
 
 #endif
