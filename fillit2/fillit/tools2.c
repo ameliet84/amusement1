@@ -66,93 +66,18 @@ int colonne(t_piece **tab, int i, int j)
 	return count;
 }
 
-void coord(t_piece **tab, int i, int j, int k)
-{
-	if(k == 0)
-	{
-		(tab[0][0].coord1).x = i;
-		(tab[0][0].coord1).y = j;
-	}
-	else if(k == 1)
-	{
-		(tab[0][0].coord2).x = i;
-		(tab[0][0].coord2).y = j;
-	}
-	else if(k == 2)
-	{
-		(tab[0][0].coord3).x = i;
-		(tab[0][0].coord3).y = j;
-	}
-		else if(k == 3)
-	{
-		(tab[0][0].coord4).x = i;
-		(tab[0][0].coord4).y = j;
-	}
-
-}
-
-void reduce_piece(t_piece **tab)
-{
-	int initx;
-	int inity;
-	int i;
-	int j;
-
-	initx = tab[0][0].init/4;
-	inity = tab[0][0].init%4;
-	i = -1;
-	while(++i<4)
-	{
-		j = -1;
-		while(++j<4)
-			if(i+initx<4 && j+inity<4)
-				tab[i][j] = tab[i+initx][j+inity];
-			else
-				tab[i][j].car = '.';
-	}
-
-}
-
-void coord2(t_piece **tab)
-{
-	int i;
-	int j;
-	int k;
-	t_coord max;
-
-	i =-1;
-	k = 0;
-	max.x = 0;
-	max.y = 0;
-	while(++i<4)
-	{
-		j = -1;
-		while(++j<4)
-			if(tab[i][j].car!='.')
-			{
-				if(i>max.x)
-					max.x = i;
-				if(j>max.y)
-					max.y = j;
-				coord(tab, i, j, k);
-				++k;
-			}
-	}
-	tab[0][0].maxi = max.x+1;
-	tab[0][0].maxj = max.y+1;
-}
-
 void treat_trio2(t_piece **tab, int l)
 {
 	int i;
 	int j;
-//	int maxi;
-//	int maxj;
+	int maxi;
+	int maxj;
 
-//	maxi = 0;
-//	maxj = 0;
+	maxi = 0;
+	maxj = 0;
 	i = 0;
 	j = 0;
+	tab[0][0].letter = 'A' +l;
 	while(skip_lines(tab, i) == 1)
 		++i;
 	while(skip_cols(tab, j) == 1)
@@ -172,20 +97,17 @@ void treat_trio2(t_piece **tab, int l)
 			else
 			{
 				tab[i][j].line = ligne(tab, i, j);
-//				if(tab[i][j].line>maxi)
-//					maxi = tab[i][j].line;
+				if(tab[i][j].line>maxi)
+					maxi = tab[i][j].line;
 				tab[i][j].col = colonne(tab, i, j);
-//				if(tab[i][j].col>maxj)
-//					maxj = tab[i][j].col;
+				if(tab[i][j].col>maxj)
+					maxj = tab[i][j].col;
 			}
 		}
 	}
 	tab[3][3].line = -1;
-//	tab[0][0].maxi = maxi;
-//	tab[0][0].maxj = maxj;
-	reduce_piece(tab);
-	coord2(tab);
-	tab[0][0].letter = 'A' +l;
+	tab[0][0].maxi = maxi;
+	tab[0][0].maxj = maxj;
 }
 
 int 	square(int nbr)
@@ -255,11 +177,6 @@ void print_tab2(t_piece ***tab, int size)
 		printf("\n");
 	}
 	printf("maxi i = %d maxj = %d\n", tab[k][0][0].maxi, tab[k][0][0].maxj);
-//	printf("coord 1 x = %d coord1 y = %d\n", (tab[k][0][0].coord1).x,(tab[k][0][0].coord1).y );
-//	printf("coord 2 x = %d coord2 y = %d\n", (tab[k][0][0].coord2).x,(tab[k][0][0].coord2).y );
-//	printf("coord 3 x = %d coord3 y = %d\n", (tab[k][0][0].coord3).x,(tab[k][0][0].coord3).y );
-//	printf("coord 4 x = %d coord4 y = %d\n", (tab[k][0][0].coord4).x,(tab[k][0][0].coord4).y );
-
 		write(1, "\n",1);
 		write(1, "\n", 1);
 	}
@@ -359,16 +276,35 @@ int skip_cols(t_piece **tab, int i)
 }
 
 
-int test_piece(char **table, t_piece **tab, int i, int j)
+int test_piece(char **table, t_piece **tab, int i, int j, int size)
 {
-	if( table[(tab[0][0].coord1).x+i][(tab[0][0].coord1).y + j] != '.')
-		return 0;
-	if( table[(tab[0][0].coord2).x+i][(tab[0][0].coord2).y + j] != '.')
-		return 0;
-	if( table[(tab[0][0].coord3).x+i][(tab[0][0].coord3).y + j] != '.')
-		return 0;
-	if(table[(tab[0][0].coord4).x+i][(tab[0][0].coord4).y + j] != '.')
-		return 0;
+	int piece1;
+	int piece2;
+	int init;
+	int init2;
+	int line;
+
+	init = j;
+	init2 = tab[0][0].init;
+	piece1 = init2/4;
+	piece2 = init2%4;
+	line = tab[piece1][piece2].line;
+	while(line != -1)// && piece < 16)
+	{
+		if(tab[piece1][piece2].car !='.' && (i>=size || j>=size || table[i][j]!='.'))
+			return 0;
+		++piece2;
+		++j;
+		if(piece2%4 == 0)
+		{
+			++piece1;
+			piece2 = init2%4;
+			++i;
+			j = init;
+		}
+		if(piece1<4)
+			line = tab[piece1][piece2].line;
+	}
 	return 1;
 }
 
@@ -376,14 +312,33 @@ int test_piece(char **table, t_piece **tab, int i, int j)
 
 void place_piece(char **table, t_piece **tab, int i, int j)
 {
-	char a;
+	int piece1;
+	int piece2;
+	int init;
+	int init2;
+	int line;
 
-	a = tab[0][0].letter;
-	table[(tab[0][0].coord1).x+i][(tab[0][0].coord1).y + j] = a;
-	table[(tab[0][0].coord2).x+i][(tab[0][0].coord2).y + j] = a;
-	table[(tab[0][0].coord3).x+i][(tab[0][0].coord3).y + j] = a;
-	table[(tab[0][0].coord4).x+i][(tab[0][0].coord4).y + j] = a;
-
+	init = j;
+	init2 = tab[0][0].init;
+	piece1 = init2/4;
+	piece2 = init2%4;
+	line = tab[piece1][piece2].line;
+	while(line!=-1)// && piece < 16)
+	{
+		if(tab[piece1][piece2].car != '.')
+			table[i][j] = tab[piece1][piece2].car;
+		++piece2;
+		++j;
+		if(piece2 == 4)
+		{
+			++piece1;
+			piece2=init2%4;
+			++i;
+			j = init;
+		}
+		if(piece1<4)
+			line = tab[piece1][piece2].line;
+	}
 }
 
 
@@ -408,10 +363,21 @@ int length(char **tab)
 	return j;
 }
 
-void remove_piece(char **table, t_piece **tab, int i, int j)
+void remove_piece(char **table, t_piece **tab, int i, int j, int size)
 {
-	table[(tab[0][0].coord1).x+i][(tab[0][0].coord1).y + j] = '.';
-	table[(tab[0][0].coord2).x+i][(tab[0][0].coord2).y + j] = '.';
-	table[(tab[0][0].coord3).x+i][(tab[0][0].coord3).y + j] = '.';
-	table[(tab[0][0].coord4).x+i][(tab[0][0].coord4).y + j] = '.';
+	char a;
+	int k;
+	int count;
+
+	count = -1;
+	a = tab[0][0].letter;
+	while(++count<4 && i+count < size)
+	{	
+		k = -1;
+		while(++k<4 && j+k <size)
+			if(table[i+count][j+k] == a)
+			{
+				table[i+count][j+k] ='.';
+			}
+	} 
 }

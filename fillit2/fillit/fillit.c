@@ -39,7 +39,7 @@ int fill_tab(char **table, t_piece ***tab, int size, int k)
 	if(count %1000000 == 0)
 	{
 		printf("count = %d\n", count);
-//		return 1;
+		return 1;
 	}
 	int i;
 	int len;
@@ -54,22 +54,22 @@ int fill_tab(char **table, t_piece ***tab, int size, int k)
 	i = -1;
 	if(k == size)
 		return 1;
-	while(++i <= len - maxi)
+	while(++i <= len - maxj)
 	{
 		j = -1;
 //		while(test_tab1(table, i, j, size) == 0 || test_tab2(table, i, j, size) == 0)
 //			++j;
 //		-- j; 
-		while(++j<=len - maxj)
+		while(++j<=len - maxi)
 		{	
-			if(test_piece(table, tab[k], i, j) == 1)
+			if(test_piece(table, tab[k], i, j, len) == 1)
 			{
 	//			if(tab[k][0][0].letter == 'H')
 	//				printf("i = %d, j =%d\n",i, j );
 				place_piece(table, tab[k], i, j);
 				if(fill_tab(table, tab, size, k+1) == 1)
 					return 1;
-				remove_piece(table, tab[k], i, j);
+				remove_piece(table, tab[k], i, j, len);
 			}
 
 //		if(tab[k][0][0].letter == 'H')
@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 			tab[i][j] = malloc(sizeof(t_piece)*4);
 	}
 	test = (argc == 2) ? read_trios(tab, open(argv[1], O_RDONLY), 'A', 0): read_trios(tab, 0, 'A', 0);
-//	print_tab2(tab, test);
+	print_tab2(tab, test);
 	if(test == 0)
 		write(1, "error\n", 6);
 	else
