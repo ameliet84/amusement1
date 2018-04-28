@@ -35,12 +35,12 @@ int read_trios(t_piece ***tab, int fd, char a, int i)
 
 int fill_tab(char **table, t_piece ***tab, int size, int k)
 {
-	count ++;
-	if(count %1000000 == 0)
-	{
-		printf("count = %d\n", count);
+//	count ++;
+//	if(count %1000000 == 0)
+//	{
+//		printf("count = %d\n", count);
 //		return 1;
-	}
+//	}
 	int i;
 	int len;
 	int j;

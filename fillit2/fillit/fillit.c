@@ -35,12 +35,12 @@ int read_trios(t_piece ***tab, int fd, char a, int i)
 
 int fill_tab(char **table, t_piece ***tab, int size, int k)
 {
-	count ++;
-	if(count %1000000 == 0)
-	{
-		printf("count = %d\n", count);
-		return 1;
-	}
+//	count ++;
+//	if(count %1000000 == 0)
+//	{
+//		printf("count = %d\n", count);
+//		return 1;
+//	}
 	int i;
 	int len;
 	int j;
@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 			tab[i][j] = malloc(sizeof(t_piece)*4);
 	}
 	test = (argc == 2) ? read_trios(tab, open(argv[1], O_RDONLY), 'A', 0): read_trios(tab, 0, 'A', 0);
-	print_tab2(tab, test);
+//	print_tab2(tab, test);
 	if(test == 0)
 		write(1, "error\n", 6);
 	else

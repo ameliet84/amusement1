@@ -3,6 +3,48 @@
 int count = 0;
 
 
+int read_trios(t_piece ***tab, int fd)
+{
+	char str[20];
+	int k;
+	int i;
+	int n;
+	int j;
+
+	k = 0;
+	while(read(fd, str, 20) > 0)
+	{
+		n =0;
+		i = -1;
+		j = 0;
+		while(++i<19)
+		{
+			if((i+1)%5 == 0 && str[i] != '\n')
+				return 0;
+			else if((i+1)%5 == 0)
+			{
+				++j;
+				++i;
+			}
+			if(str[i] == '#')
+			{
+				++n;
+				tab[k][(i-j)/4][(i-j)%4].car = 'A' + k;
+			}
+			else if(str[i] == '.')
+				tab[k][(i-j)/4][(i-j)%4].car = '.';
+			else
+				return 0;
+		}
+		if(n != 4 || test_trio(tab[k]) == 0 || (read(fd, str, 1) >0 && str[0] != '\n'))
+			return 0;
+		treat_trio2(tab[k], k);
+		++k;
+	}
+	return k;
+}
+
+/*
 int read_trios(t_piece ***tab, int fd, char a, int i)
 {
 	int p;
@@ -32,15 +74,9 @@ int read_trios(t_piece ***tab, int fd, char a, int i)
 		}
 	return ( p != 3) ? 0 : i+1;
 }
-
+*/
 int fill_tab(char **table, t_piece ***tab, int size, int k)
 {
-//	count ++;
-//	if(count %1000000 == 0)
-//	{
-//		printf("count = %d\n", count);
-//		return 1;
-//	}
 	int i;
 	int len;
 	int j;
@@ -49,7 +85,6 @@ int fill_tab(char **table, t_piece ***tab, int size, int k)
 
 	maxi = tab[k][0][0].maxi;
 	maxj = tab[k][0][0].maxj;
-//	print_tab(table, length(table));
 	len = length(table);
 	i = -1;
 	if(k == size)
@@ -57,47 +92,41 @@ int fill_tab(char **table, t_piece ***tab, int size, int k)
 	while(++i <= len - maxi)
 	{
 		j = -1;
-//		while(test_tab1(table, i, j, size) == 0 || test_tab2(table, i, j, size) == 0)
-//			++j;
-//		-- j; 
 		while(++j<=len - maxj)
 		{	
 			if(test_piece(table, tab[k], i, j) == 1)
 			{
-	//			if(tab[k][0][0].letter == 'H')
-	//				printf("i = %d, j =%d\n",i, j );
 				place_piece(table, tab[k], i, j);
 				if(fill_tab(table, tab, size, k+1) == 1)
 					return 1;
 				remove_piece(table, tab[k], i, j);
 			}
-
-//		if(tab[k][0][0].letter == 'H')
-//			printf("i = %d, j =%d\n",i, j);
 		}
 	}
 	return 0;
 }
 
-void fill_it(t_piece ***tab, int size, int i)
+void fill_it(t_piece ***tab, int size)
 {
 	char **table;
 	int len;
+	int i;
 
-	len = square((size+i)*4);
-	printf("square = %d et size = %d\n",square((size+i)*4), size+i);
+	i = 0;
+	len = square((size)*4);
 	table = create_tab(len);
 	init_table(table, len);
-	if(fill_tab(table, tab, size, 0)==0)
+	while(fill_tab(table, tab, size, 0)==0)
 	{
 		free(table);
-		fill_it(tab, size, i+1);
+		printf("square = %d et size = %d\n",square((size+i)*4), size+i);
+		++i;
+		len = square((size+i)*4);
+		table = create_tab(len);
+		init_table(table, len);
 	}
-	else
-	{
 		print_tab(table, len);
 		free(table);
-	}
 }
 
 int main(int argc, char **argv)
@@ -118,12 +147,12 @@ int main(int argc, char **argv)
 		while (++j<4)
 			tab[i][j] = malloc(sizeof(t_piece)*4);
 	}
-	test = (argc == 2) ? read_trios(tab, open(argv[1], O_RDONLY), 'A', 0): read_trios(tab, 0, 'A', 0);
+	test = (argc == 2) ? read_trios(tab, open(argv[1], O_RDONLY)): read_trios(tab, 0);
 	print_tab2(tab, test);
 	if(test == 0)
 		write(1, "error\n", 6);
 	else
-		fill_it(tab, test, 0);
+		fill_it(tab, test);
 	free(tab);		
 	return 0;
 }
