@@ -1,59 +1,5 @@
 #include "fillit.h"
 
-/*
-char last_letter(char **tab, int size)
-{
-	int i;
-	int j;
-
-	i=size;
-	while(--i>=0)
-	{
-		j = size;
-		while(--j>=0)
-			if(tab[i][j]!='.')
-				return tab[i][j];
-	}
-	return '.';
-}
-
-char first_letter(char **tab, int size)
-{	
-
-	int i;
-	int j;
-
-	i=-1;
-	while(++i <size)
-	{
-		j = -1;;
-		while(++j < size)
-			if(tab[i][j]!='.')
-				return tab[i][j];
-	}
-	return '.';
-}
-
-int possible(char **table, t_piece **tab)
-{
-	int i;
-	int j;
-	int size;
-
-	size = length(table);
-	i =-1;
-	while(++i<size)
-	{
-		j = -1;
-		while(++j<size)
-			if(test_piece(table, tab, i, j, size) == 1)
-				return 1;
-	}
-	return 0;
-}
-
-*/
-
 int test_tab1(char **tab, int i, int j, int size)
 {
 	int l;
@@ -421,7 +367,7 @@ int test_piece(char **table, t_piece **tab, int i, int j)
 		return 0;
 	if( table[(tab[0][0].coord3).x+i][(tab[0][0].coord3).y + j] != '.')
 		return 0;
-	if( table[(tab[0][0].coord4).x+i][(tab[0][0].coord4).y + j] != '.')
+	if(table[(tab[0][0].coord4).x+i][(tab[0][0].coord4).y + j] != '.')
 		return 0;
 	return 1;
 }

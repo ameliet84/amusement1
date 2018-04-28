@@ -76,12 +76,5 @@ int test_tab1(char **tab, int i, int j, int size);
 
 int test_tab2(char **tab, int i, int j, int size);
 
-char last_letter(char **tab, int size);
-
-char first_letter(char **tab, int size);
-
-int possible(char **table, t_piece **tab);
-
-
 
 #endif

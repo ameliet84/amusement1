@@ -33,133 +33,71 @@ int read_trios(t_piece ***tab, int fd, char a, int i)
 	return ( p != 3) ? 0 : i+1;
 }
 
-/*
-int fill_tab(char **table, t_piece ***tab, int size)
+int fill_tab(char **table, t_piece ***tab, int size, int k)
 {
 	count ++;
-	int pos2;
-	int len;
-	int init2[26] = {-1};
+	if(count %1000000 == 0)
+	{
+		printf("count = %d\n", count);
+//		return 1;
+	}
 	int i;
-	int j;
-	int k;
-
-	k =0;
-	len = length(table);
-	while(k < size)
-	{
-		pos2 = init2[k];
-			while(++pos2 <len*len)
-			{
-					i = pos2/len;
-					j = pos2%len;
-				if(test_piece(table, tab[k], i, j, len) == 1)
-				{
-					init2[k] = pos2;
-					place_piece(table, tab[k], i, j);
-	//					print_tab(table, len);
-					++k;
-					if(k==size)
-						return 1;
-					pos2 = -1;
-				}
-			}
-			if(k == 0)
-				return 0;
-			--k;
-			remove_piece(table, tab[k], init2[k]/len, init2[k]%len);
-	}
-	return 1;
-}
-*/
-
-int fill_tab(char **table, t_piece ***tab, int size)
-{
 	int len;
-	t_coord init2[26];
-	int i;
 	int j;
-	int k;
-	t_coord max;
+	int maxi;
+	int maxj;
 
-	i=-1;
-	while(++i<26)
-	{
-		init2[i].x = -1;
-		init2[i].y = -1;
-	}
-
-	k =0;
+	maxi = tab[k][0][0].maxi;
+	maxj = tab[k][0][0].maxj;
+//	print_tab(table, length(table));
 	len = length(table);
-	while(k < size)
+	i = -1;
+	if(k == size)
+		return 1;
+	while(++i <= len - maxi)
 	{
-		i = init2[k].x;
-		max.x =  tab[k][0][0].maxi;
-			while(++i <=len - max.x)
+		j = -1;
+//		while(test_tab1(table, i, j, size) == 0 || test_tab2(table, i, j, size) == 0)
+//			++j;
+//		-- j; 
+		while(++j<=len - maxj)
+		{	
+			if(test_piece(table, tab[k], i, j) == 1)
 			{
-				max.y =  tab[k][0][0].maxj;
-				j = init2[k].y;
-				while(++j<=len -max.y)
-				{
-					if(test_piece(table, tab[k], i, j) == 1)
-					{
-//	count ++;
-//	if(count%1000000 == 0)
-//	{
-//		printf("%d\n", count);
-//		return 0;
-//	}
-						init2[k].x = i;
-						init2[k].y = j;
-						place_piece(table, tab[k], i, j);
-	
-//	if(k >11 && len == 8 && table[0][0] == 'A' && table[0][4]=='B' && table[0][7]== 'C' &&table[6][2] == 'F'  && table[7][7] == 'D' && table[3][3] == 'E' && table[5][1] == 'G' && table[1][4] == 'H')//&& table[2][1] == 'I' && table[7][3] == 'J' && table[1][6] == 'K' && table[4][5] == 'M' && table[7][0] == 'N' && table[1][7] == 'O') 
-//	if(k == size-2)
-//							print_tab(table, len);
-						++k;
-						if(k==size)
-							return 1;
-						max.x =  tab[k][0][0].maxi;
-						i = -1;
-						init2[k].x = -1;
-						init2[k].y = -1;
-						j = len;
-					}
-				}
+	//			if(tab[k][0][0].letter == 'H')
+	//				printf("i = %d, j =%d\n",i, j );
+				place_piece(table, tab[k], i, j);
+				if(fill_tab(table, tab, size, k+1) == 1)
+					return 1;
+				remove_piece(table, tab[k], i, j);
 			}
-			if(k == 0)
-				return 0;
-			--k;
-			remove_piece(table, tab[k], init2[k].x, init2[k].y);
-			if(init2[k].y == len-tab[k][0][0].maxj || test_piece(table, tab[k],init2[k].x, init2[k].y+1) == 0)
-				init2[k].y = -1;
-			else
-				--init2[k].x;
-//			print_tab(table, len);
+
+//		if(tab[k][0][0].letter == 'H')
+//			printf("i = %d, j =%d\n",i, j);
+		}
 	}
-	return 1;
+	return 0;
 }
 
-void fill_it(t_piece ***tab, int size)
+void fill_it(t_piece ***tab, int size, int i)
 {
 	char **table;
 	int len;
 
-	len = square((size)*4);
+	len = square((size+i)*4);
+	printf("square = %d et size = %d\n",square((size+i)*4), size+i);
 	table = create_tab(len);
 	init_table(table, len);
-	while(fill_tab(table, tab, size)==0)
+	if(fill_tab(table, tab, size, 0)==0)
 	{
-
-		printf("square = %d et size = %d\n",len, size);
 		free(table);
-		++len;
-		table = create_tab(len);
-		init_table(table, len);
+		fill_it(tab, size, i+1);
 	}
-	//	print_tab(table, len);
+	else
+	{
 		print_tab(table, len);
 		free(table);
+	}
 }
 
 int main(int argc, char **argv)
@@ -181,11 +119,11 @@ int main(int argc, char **argv)
 			tab[i][j] = malloc(sizeof(t_piece)*4);
 	}
 	test = (argc == 2) ? read_trios(tab, open(argv[1], O_RDONLY), 'A', 0): read_trios(tab, 0, 'A', 0);
-	print_tab2(tab, test);
+//	print_tab2(tab, test);
 	if(test == 0)
 		write(1, "error\n", 6);
 	else
-		fill_it(tab, test);
+		fill_it(tab, test, 0);
 	free(tab);		
 	return 0;
 }
